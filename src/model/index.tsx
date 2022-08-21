@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createContext, Dispatch, FC, useReducer } from 'react'
-import { setIn, List } from 'immutable'
+import { List } from 'immutable'
 import { CounterState, CounterAction, ActionType } from '../types'
 
 type Context = {

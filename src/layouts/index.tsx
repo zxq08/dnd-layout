@@ -24,7 +24,12 @@ export default function Index () {
                             <Dustbin />
                         </Content>
                     </Layout>
-                    <Footer>Footer</Footer>
+                    <Footer>
+                    <div style={{ width:"100%", textAlign:"center" }}>
+                        <p>Copyright © 2021 zxq08</p>
+                        <a style={{ color: "#333" }} href='https://beian.miit.gov.cn/' target="_blank">京ICP备2021018713号-1</a>
+                    </div>
+                    </Footer>
                 </Layout>
             </DndProvider>
         </Provider>
