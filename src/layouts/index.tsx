@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Layout } from 'antd'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import Box from '@/pages/components/box'
+import DragComponents from '@/pages/components'
 import Dustbin from '@/pages/drop/dustbin';
 import Provider, { CounterContext } from '@/model';
 import './index.less'
@@ -18,7 +18,7 @@ export default function Index () {
                     <Header>Header</Header>
                     <Layout>
                         <Sider>
-                            <Box />
+                            <DragComponents />
                         </Sider>
                         <Content>
                             <Dustbin />
