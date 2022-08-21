@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createContext, Dispatch, FC, useReducer } from 'react'
-import { setIn } from 'immutable'
+import { setIn, List } from 'immutable'
 import { CounterState, CounterAction, ActionType } from '../types'
 
 type Context = {
@@ -16,22 +16,21 @@ export const CounterContext = createContext<Context>({} as Context)
 
 const counterReducer = (state: CounterState, action: CounterAction) => {
     switch (action.type) {
-        case ActionType.increment:
-            return setIn(state, ['counter'], state.counter + 1)
+        case ActionType.increment: 
+        console.log('counter', state)
+            state.counter = state.counter.push({id: state.counter.size})
+            return state
         
         case ActionType.decrement:
-            return setIn(state, ['counter'], state.counter - 1)
-
-        case ActionType.toggle:
-            return setIn(state, ['showCounter'], !state.showCounter)
+            state.counter = state.counter.pop()
+            return state
 
         default:
             return state
-
     }
 }
 
-const initialState: CounterState = { counter: 0, showCounter: true}
+const initialState: CounterState = { counter: List() }
 
 const Provider = (props: LayoutProps) => {
     const [store, dispatch] = useReducer(counterReducer, initialState)

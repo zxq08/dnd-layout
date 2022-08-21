@@ -4,7 +4,7 @@ export enum ActionType {
     'toggle',
   }
   
-export type CounterState = { counter: number; showCounter: boolean };
+export type CounterState = { counter: any };
 
 export type CounterAction = { type: ActionType; payload?: any };
   

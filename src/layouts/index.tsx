@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { Layout } from 'antd'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import DragComponents from '@/pages/components'
+import DragComponents from '@/pages/components/box'
 import Dustbin from '@/pages/drop/dustbin';
 import Provider, { CounterContext } from '@/model';
 import './index.less'

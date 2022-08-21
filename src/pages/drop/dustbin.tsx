@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect, useContext } from 'react';
 import { useDrop, DropTargetMonitor } from 'react-dnd';
-import Box from '../components/box';
+import Box from '../components/box/component';
 import Provider, { CounterContext } from '@/model';
 import style from './index.less'
 
 function Dustbin () {
     const {store, dispatch} = useContext(CounterContext)
-    const [list, setList] = useState([])
+    const [list, setList] = useState<Array<any>>()
     const [collected, dropRef] = useDrop({
         accept: "Box",
         drop: () => ({ name: 'Dustbin' }),
@@ -16,12 +16,12 @@ function Dustbin () {
         })
     })
     useEffect(() => {
-        const _list = new Array(store.counter).fill(1)
-        setList(_list as any)
+        console.log('beforeSetList', store)
+        setList(store?.counter?.toArray())
     }, [store.counter])
-    
+
     return (<div ref={dropRef} className={style.dustbinWrap}>
-        {list?.map(item => <Box />)}
+        {list?.map((item) => <Box key={item?.id}/>)}
     </div>);
 }
 
