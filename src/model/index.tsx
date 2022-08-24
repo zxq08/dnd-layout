@@ -18,7 +18,13 @@ const counterReducer = (state: CounterState, action: CounterAction) => {
     switch (action.type) {
         case ActionType.increment: 
         console.log('counter', state)
-            state.counter = state.counter.push({id: state.counter.size})
+            state.counter = state.counter.push({
+                id: state.counter.size, 
+                attribute: {
+                    width: 50,
+                    height: 50
+                }
+            })
             return state
         
         case ActionType.decrement:
