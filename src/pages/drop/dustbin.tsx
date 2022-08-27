@@ -4,19 +4,14 @@ import { useDrop, DropTargetMonitor } from 'react-dnd';
 import Box from '../components/box/component';
 import Provider, { CounterContext } from '@/model';
 import { Drawer, Form, Input, Slider, Row, Col } from 'antd'
+import { ActionType, attribute } from '@/types';
 import style from './index.less'
 
-interface attribute {
-    id: Number | String,
-    width: Number | String,
-    height: Number | String,
-}
-
-function Dustbin () {
+function Dustbin (props: any) {
 
     const [visible, setVisible] = useState(false)
-    const [current, setCurrent] = useState(null) // 当前选中的id
-    const [attribute, setAttribute] = useState<attribute>() // 当前选中的属性
+    const [current, setCurrent] = useState<Number | String>() // 当前选中的id
+    const [attribute, setAttribute] = useState<attribute | void>() // 当前选中的属性
     const {store, dispatch} = useContext(CounterContext)
     const [list, setList] = useState<Array<any>>()
     const [collected, dropRef] = useDrop({
@@ -36,10 +31,8 @@ function Dustbin () {
         const item = list?.find(f => f.id === current)
         if (item) {
             setAttribute(item.attribute)
-                // {
-                // id: current,
-            //     ...item.attribute
-            // }
+        } else {
+            setAttribute()
         }
     }, [current])
 
@@ -53,7 +46,15 @@ function Dustbin () {
     }
     const closeDrawer = () => {
         setVisible(false)
-        setCurrent(null)
+        setCurrent('')
+    }
+
+    const updateCounter = (attr: attribute) => {
+        dispatch({
+            type: ActionType.update, 
+            id: current,
+            attribute: attr
+        })
     }
 
     return (<div ref={dropRef} className={style.dustbinWrap}>
@@ -81,28 +82,32 @@ function Dustbin () {
             </Row>
             <Row align="middle" gutter={[0, 8]}>
                 <Col span={4}>
-                    <span>高度</span>
-                </Col>
-                <Col span={20}>
-                    <Slider onAfterChange={( height: Number ) => {
-                        setAttribute({ 
-                            ...attribute,
-                            height
-                        } as attribute)
-                    }} defaultValue={Number(attribute?.width) || 0} />
-                </Col>
-            </Row>
-            <Row align="middle" gutter={[0, 8]}>
-                <Col span={4}>
                     <span>宽度</span>
                 </Col>
                 <Col span={20}>
                     <Slider onAfterChange={( width: Number ) => {
-                        setAttribute({ 
-                            ...attribute, 
+                        const newAttr = { 
+                            ...attribute,
                             width
-                        } as attribute)
+                        }
+                        setAttribute(newAttr as attribute)
+                        updateCounter(newAttr as attribute)
                     }} defaultValue={Number(attribute?.height) || 0} />
+                </Col>
+            </Row>
+            <Row align="middle" gutter={[0, 8]}>
+                <Col span={4}>
+                    <span>高度</span>
+                </Col>
+                <Col span={20}>
+                    <Slider onAfterChange={( height: Number ) => {
+                        const newAttr = { 
+                            ...attribute,
+                            height
+                        }
+                        setAttribute(newAttr as attribute)
+                        updateCounter(newAttr as attribute)
+                    }} defaultValue={Number(attribute?.width) || 0} />
                 </Col>
             </Row>
         </Drawer>

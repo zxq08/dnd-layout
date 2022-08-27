@@ -1,23 +1,13 @@
 import * as React from 'react'
-import { createContext, Dispatch, FC, useReducer } from 'react'
+import { createContext, FC, useReducer } from 'react'
 import { List } from 'immutable'
-import { CounterState, CounterAction, ActionType } from '../types'
-
-type Context = {
-    store: CounterState;
-    dispatch: Dispatch<CounterAction>
-}
-
-interface LayoutProps {
-    children: React.ReactNode
-}
+import { CounterState, CounterAction, ActionType, attribute,Context ,LayoutProps } from '../types'
 
 export const CounterContext = createContext<Context>({} as Context)
 
 const counterReducer = (state: CounterState, action: CounterAction) => {
     switch (action.type) {
         case ActionType.increment: 
-        console.log('counter', state)
             state.counter = state.counter.push({
                 id: state.counter.size, 
                 attribute: {
@@ -29,6 +19,16 @@ const counterReducer = (state: CounterState, action: CounterAction) => {
         
         case ActionType.decrement:
             state.counter = state.counter.pop()
+            return state
+        
+        case ActionType.update:
+            if (action.id || action.id === 0) {
+                const index = state.counter.findIndex((value: attribute) => value.id === action.id)
+                state.counter = state.counter.set(index, {
+                    id: action.id,
+                    attribute: action.attribute
+                })
+            }
             return state
 
         default:

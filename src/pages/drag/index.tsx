@@ -18,7 +18,7 @@ function DragComponents (props: any) {
             if (monitor.didDrop()) {
                 console.log('droped-item', item)
             }
-            console.log('droped!')
+            console.log('droped!', props.ActionType)
             //ActionType.increment
             dispatch({type: props.ActionType})
         }
